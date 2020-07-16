@@ -102,7 +102,7 @@ By default, the Kubernetes APIs allow for a variety of easy privilege escalation
   Ingress bad-ingress had violation: Requires Unique Ingress Host: Ingress Host should not point to multiple namespaces
   ```
 
-By leveraging the first three features you can quickly and easily roll out enforcement to deployments without breaking them and monitor violations with confidence. The interactive feedback informs and educates engineers during future policy violations.
+By leveraging the first three features you can quickly and easily roll out enforcement to deployments without breaking them while monitoring violations with confidence. Its interactive feedback informs and educates engineers during future policy violations.
 
 Cruise was able to utilize this software to apply enforcement to more than a dozen clusters with thousands of existing diverse workloads in all environments in about a week without breaking existing deployments. Now you can too.
 
@@ -110,11 +110,11 @@ Cruise was able to utilize this software to apply enforcement to more than a doz
 
 If you have a new cluster without existing workloads, just run k-rail in enforcement mode for the policies you desire and add exemptions as needed.
 
-If you have a cluster with existing workloads, run it in monitor mode for a few weeks or until you have collected enough data. The violation events are emmitted in the logs in JSON, so it is suggested that you analyze that data collected to make exemptions as needed. Once the exemptions are applied, you can safely turn on enforcement mode without breaking existing workloads.
+If you have a cluster with existing workloads, run it in monitor mode for a few weeks until you have collected enough data. The violation events are emmitted in JSON-formatted logs. So it is suggested that you analyze that data collected to make exemptions as needed. Once the exemptions are applied, you can safely turn on enforcement mode without breaking existing workloads.
 
 # Installation
 
-You can install or update k-rail using the helm chart in [`charts/k-rail`](charts/k-rail). You can install the latest chart directly from our repo, by running:
+You can install or update k-rail using helm chart in [`charts/k-rail`](charts/k-rail). You can install the latest chart directly from our repo, by running:
 
 ```bash
 # add the helm repo
@@ -129,9 +129,9 @@ kubectl label namespace k-rail k-rail/ignore=true
 helm install k-rail k-rail/k-rail --namespace k-rail
 ```
 
-For the Helm deployment, all configuration for policies and exemptions are contained in [`charts/k-rail/values.yaml`](charts/k-rail/values.yaml).
+For the Helm deployment, all configurations for policies and exemptions are contained in [`charts/k-rail/values.yaml`](charts/k-rail/values.yaml).
 
-For Helm 2 and below, it is recommended to use `helm template` render the YAML for applying rather than using Helm Tiller:
+For Helm 2 and below, it is recommended to use `helm template` to render the YAML for applying rather than using Helm Tiller:
 
 ```bash
 helm template --namespace k-rail charts/k-rail | kubectl apply -f -
@@ -161,7 +161,7 @@ helm template --namespace k-rail charts/k-rail | kubectl delete -f -
 
 # Viewing policy violations
 
-There are a few ways of viewing violations. Violations from realtime feedback and the Events API is most useful for users, but violations from logs is most useful for presentation and analysis.
+There are a few ways of viewing violations. Violations from realtime feedback and the Events API is most useful for users. But violations from logs is most useful for presentation and analysis.
 
 ## Violations from realtime feedback
 
@@ -194,7 +194,7 @@ bad-pod-5f7cd9bf45-rbhsb had violation: Docker Sock Mount: mounting the Docker s
 
 ## Violations from logs
 
-Violations are also emitted as structured data in the logs:
+Violations are also emitted as structured data in logs:
 
 ```json
 $ kubectl logs --namespace k-rail --selector name=k-rail | jq '.'
@@ -248,7 +248,7 @@ Execing into a pod can enable someone to do many nefarious things to that worklo
 
 ## No Bind Mounts
 
-Host bind mounts (also called `hostPath` mounts) can be used to exfiltrate data from or escalate privileges on the host system. Using host bind mounts can cause unreliability of the node if it causes a partition to fill up.
+Host bind mounts (also called `hostPath` mounts) can be used to exfiltrate data from or escalate privileges on the host system. Using host bind mounts can impact  node reliability if it causes a partition to fill up.
 
 ## No Docker Sock Mount
 
